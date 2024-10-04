@@ -17,3 +17,11 @@ This project aims to develop a tool leveraging large language models (LLMs) to r
 5. Compliance and Security: Ensuring all interactions are compliant with data security standards, including HIPAA and GDPR for sensitive genomic data.
 
 6. Scalability Infrastructure: Cloud or on-premise infrastructure capable of handling large-scale datasets and computationally intensive bioinformatics workflows.
+
+
+## Current Team:
+Ajith Akuthota - Tech Lead
+Oam Khatavkar - Capstone
+Pranavi Kolouju - Capstone
+Om Patel - Capstone
+
