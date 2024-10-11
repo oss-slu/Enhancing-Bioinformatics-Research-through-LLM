@@ -1,0 +1,34 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-error {
+    margin-top: 8px;
+    color: red;
+  }
+  
+  .login-button {
+    margin-top: 16px;
+  }
+  
+  .login-links {
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  .signup-link {
+    margin-top: 8px;
+    text-align: center;
+  }
+  

@@ -1,0 +1,49 @@
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.signup-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-button {
+  margin-top: 16px;
+}
+
+.signup-success {
+  margin-top: 16px;
+}
+
+.social-signup {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.google-signup {
+  margin-bottom: 16px;
+  border-color: #db4437;
+  color: #db4437;
+  border-radius: 50px;
+  padding: 10px 20px;
+  text-transform: none;
+}
+
+.github-signup {
+  border-color: #000;
+  color: #000;
+  border-radius: 50px;
+  padding: 10px 20px;
+  text-transform: none;
+}
+
+.login-link {
+  margin-top: 16px;
+  text-align: center;
+}
