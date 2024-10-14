@@ -1,0 +1,21 @@
+.references-container {
+    margin-top: 40px;
+  }
+  
+  .references-search {
+    margin-bottom: 20px;
+  }
+  
+  .references-paper {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .references-accordion {
+    margin-bottom: 5px;
+  }
+  
+  .no-references {
+    padding: 10px 0;
+  }
+  

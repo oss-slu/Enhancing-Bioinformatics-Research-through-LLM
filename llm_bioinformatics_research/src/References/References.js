@@ -1,6 +1,8 @@
 import React from 'react';
-import {Container, Typography, Paper, TextField } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Container, Typography, Paper, TextField, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import './References.css'; 
+
 const references = [
   {
     author: "Smith, J.",
@@ -18,13 +20,11 @@ const references = [
     journal: "Genomics Review",
     volume: "22",
     pages: "45-60",
-    link: "https://www.sciencedirect.com/science/article/pii/S0168952519301126" 
+    link: "https://www.sciencedirect.com/science/article/pii/S0168952519301126"
   }
-
 ];
 
 function References() {
-
   const [searchQuery, setSearchQuery] = React.useState('');
   const filteredReferences = references.filter((ref) => {
     return ref.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -33,7 +33,7 @@ function References() {
   });
 
   return (
-    <Container sx={{ mt: 6 }}>
+    <Container className="references-container">
       <Typography variant="h4" gutterBottom>
         References
       </Typography>
@@ -41,24 +41,32 @@ function References() {
         label="Search References"
         variant="outlined"
         fullWidth
-        style={{ marginBottom: '20px' }} 
+        className="references-search"
         margin='normal'
         color='primary'
         onChange={(e) => setSearchQuery(e.target.value)}
-      />  
-      <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
-        <Box>
-          
-          {filteredReferences.length > 0 ? (
-            filteredReferences.map((ref, index) => (
-              <li key={index}>
-                {ref.author} ({ref.year}). <a href={ref.link} target="_blank" rel="noopener noreferrer">{ref.title}</a>. {ref.journal}, {ref.volume}, {ref.pages}.
-              </li>
-            ))
-          ) : (
-            <Typography>No references found</Typography>
-          )}
-        </Box>
+      />
+      <Paper elevation={3} className="references-paper">
+        {filteredReferences.length > 0 ? (
+          filteredReferences.map((ref, index) => (
+            <Accordion key={index} className="references-accordion">
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel${index}-content`}
+                id={`panel${index}-header`}
+              >
+                <Typography>{ref.title}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  {ref.author} ({ref.year}). <a href={ref.link} target="_blank" rel="noopener noreferrer">{ref.title}</a>. {ref.journal}, {ref.volume}, {ref.pages}.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))
+        ) : (
+          <Typography className="no-references">No references found</Typography>
+        )}
       </Paper>
     </Container>
   );

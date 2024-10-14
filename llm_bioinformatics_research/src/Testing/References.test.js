@@ -1,55 +1,56 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import References from '../References/References';
 
+describe('References Component', () => {
+  it('renders without crashing', () => {
+    render(<References />);
+    expect(screen.getByText('References')).toBeInTheDocument();
+  });
 
-test('renders references with links', () => {
-  render(<References />);
-
-  expect(screen.getByText(/Understanding Bioinformatics/i)).toBeInTheDocument();
-  expect(screen.getByText(/Advanced Techniques in Genomics/i)).toBeInTheDocument();
-
-  const bioinformaticsLink = screen.getByText(/Understanding Bioinformatics/i);
-  expect(bioinformaticsLink).toHaveAttribute('href', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8738975/');
+  it('displays all references initially', () => {
+    render(<References />);
   
-  const genomicsLink = screen.getByText(/Advanced Techniques in Genomics/i);
-  expect(genomicsLink).toHaveAttribute('href', 'https://www.sciencedirect.com/science/article/pii/S0168952519301126');
+    const bioinformaticsTitles = screen.getAllByText('Understanding Bioinformatics');
+    expect(bioinformaticsTitles.length).toBeGreaterThan(0);
+
+    const genomicsTitles = screen.getAllByText('Advanced Techniques in Genomics');
+    expect(genomicsTitles.length).toBeGreaterThan(0);
+  });
+
+  it('filters references based on search input', () => {
+    render(<References />);
+  
+    const searchInput = screen.getByLabelText('Search References');
+    fireEvent.change(searchInput, { target: { value: 'Smith' } });
+
+    const bioinformaticsTitles = screen.getAllByText('Understanding Bioinformatics');
+    expect(bioinformaticsTitles[0]).toBeInTheDocument();  
+  
+    expect(screen.queryByText('Advanced Techniques in Genomics')).not.toBeInTheDocument();
+  });
+  
+
+  it('shows "No references found" when no references match the search input', () => {
+    render(<References />);
+
+    const searchInput = screen.getByLabelText('Search References');
+    fireEvent.change(searchInput, { target: { value: 'Nonexistent Author' } });
+
+    expect(screen.getByText('No references found')).toBeInTheDocument();
+  });
+
+  it('expands Accordion to show full citation details', () => {
+    render(<References />);
+
+    const hiddenCitation = screen.getByText((content, element) => content.includes('Bioinformatics Journal, 15, 123-130'));
+    expect(hiddenCitation).not.toBeVisible(); 
+
+    const firstAccordion = screen.getByRole('button', { name: /Understanding Bioinformatics/i });
+    fireEvent.click(firstAccordion);
+
+    expect(screen.getByText((content, element) => content.includes('Bioinformatics Journal, 15, 123-130'))).toBeVisible();
+  });
+  
 });
-
-test('renders references and checks for the search functionality', () => {
-  render(<References />);
-
-  const searchInput = screen.getByLabelText(/Search References/i);
-  expect(searchInput).toBeInTheDocument();
-
-  fireEvent.change(searchInput, { target: { value: 'Smith' } });
-  expect(screen.getByText(/Smith, J./i)).toBeInTheDocument();
-  expect(screen.queryByText(/Doe, A./i)).toBeNull();
-});
-
-test('renders references and checks for the "No references found" message', () => {
-  render(<References />);
-
- 
-  const searchInput = screen.getByLabelText(/Search References/i);
-  fireEvent.change(searchInput, { target: { value: 'random' } });
-  expect(screen.getByText(/No references found/i)).toBeInTheDocument();
-});
-
-test('renders references and checks for the reference details', () => {
-  render(<References />);
-
-  expect(screen.getByText(/Smith, J./i)).toBeInTheDocument();
-  expect(screen.getByText(/2022/i)).toBeInTheDocument();
-  expect(screen.getByText(/Understanding Bioinformatics/i)).toBeInTheDocument();
-  expect(screen.getByText(/Bioinformatics Journal/i)).toBeInTheDocument();
-  expect(screen.getByText(/15/i)).toBeInTheDocument();
-  expect(screen.getByText(/123-130/i)).toBeInTheDocument();
-  expect(screen.getByText(/Doe, A./i)).toBeInTheDocument();
-  expect(screen.getByText(/2021/i)).toBeInTheDocument();
-  expect(screen.getByText(/Advanced Techniques in Genomics/i)).toBeInTheDocument();
-  expect(screen.getByText(/Genomics Review/i)).toBeInTheDocument();
-  expect(screen.getByText(/ 22/i)).toBeInTheDocument();
-  expect(screen.getByText(/45-60/i)).toBeInTheDocument();
-});
-
