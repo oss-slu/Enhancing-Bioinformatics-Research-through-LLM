@@ -91,7 +91,7 @@ function SignUpScreen() {
 
     if (isUsernameValid && isEmailValid && isPasswordValid && isRetypePasswordValid) {
       try {
-        const response = await fetch('http://localhost:5000/signup', {
+        const response = await fetch('http://localhost:5001/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function SignUpScreen() {
 
         if (response.status === 201) {
           setSignupSuccess(true);
-          setTimeout(() => navigate('/login'), 5000); 
+          setTimeout(() => navigate('/login'), 5001); 
         } else if (response.status === 400) {
           if (data.message === "Username is already in use") {
             setUsernameTakenError("This username is already taken.");

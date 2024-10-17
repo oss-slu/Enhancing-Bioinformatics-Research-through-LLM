@@ -8,6 +8,7 @@ import HomeScreen from './HomeScreen/HomeScreen';
 import ApiDocumentation from './ApiDocumentation/ApiDocumentation';  
 import References from './References/References'; 
 import SignupScreen from './SignupScreen/SignupScreen';
+import UserProfile from './UserProfile/UserProfile';
 import { Link, useLocation } from 'react-router-dom';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
@@ -29,7 +30,7 @@ const Layout = ({ children }) => {
             <Button sx={{ color: 'white' }}>Guidelines</Button>
             <Button component={Link} to="/api-documentation" sx={{ bgcolor: location.pathname === '/api-documentation' ? blue[800] : blue[500], color: 'white', m: 1 }}>API documentation</Button>
             <Button component={Link} to="/references" sx={{ bgcolor: location.pathname === '/references' ? blue[800] : blue[500], color: 'white', m: 1 }}>References</Button>
-            <IconButton sx={{ color: 'white' }}><PersonOutlineIcon /></IconButton>
+            <IconButton component = {Link} to="/profile" sx={{ bgcolor: location.pathname === '/profile' ? blue[800] : blue[500], color: 'white', m: 1 }}><PersonOutlineIcon /></IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -50,6 +51,7 @@ function App() {
           <Route path="/references" element={<Layout><References /></Layout>} />
           <Route path="/signup" element={<SignupScreen />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </div>
     </Router>

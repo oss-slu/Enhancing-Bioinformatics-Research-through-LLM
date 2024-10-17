@@ -1,0 +1,70 @@
+/* App Bar */
+ .appBar {
+    justify-content: center;
+    background-color: #1976d2;
+  }
+  
+  .title {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  /* Button Section */
+  .button-section {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .default-button {
+    color: black;
+    background-color: white;
+  }
+  
+  .default-button:hover {
+    background-color: lightgray;
+  }
+  
+  .selected-button {
+    color: white;
+    background-color: #1976d2;
+  }
+  
+  .selected-button:hover {
+    color: white;
+    background-color: #1976d2;
+  }
+  
+  .logout-button {
+    color: black;
+  }
+  
+  .logout-button:hover {
+    color: white;
+    background-color: lightgray;
+  }
+  
+  /* Profile Section */
+  .profile-section {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+   
+  /* Input Fields */
+  .input-field {
+    width: 80%;
+  }
+  
+  /* Settings Section */
+  .settings-section {
+    margin-top: 24px;
+  }
+  
