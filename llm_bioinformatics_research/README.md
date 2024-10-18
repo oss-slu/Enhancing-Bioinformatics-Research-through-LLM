@@ -96,3 +96,11 @@ Note: users must request database admin for access
 7. Save the connection sting in the variable "MONGO_URI". Replace `<db_username>` and `<db_password>` with the username and password provided to you by a database admin. 
 
 ![alt text](<documentation_images/env.png>)
+
+8. Save the secret key for JWT in the variable "JWT_SECRET" within the .env file. This can be any random string. For example: JWT_SECRET = "2839070519".
+
+## Configuration Details
+
+We have a config.json file within our src directory so that our frontend pages such as login and signup can dynamically access the port on which the backend is running and read and write to the database.
+
+![Alt text](<documentation_images/config.json.png>)
