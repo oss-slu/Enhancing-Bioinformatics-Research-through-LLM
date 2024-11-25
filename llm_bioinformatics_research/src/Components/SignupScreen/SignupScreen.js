@@ -134,6 +134,24 @@ function SignUpScreen() {
     }
   };
 
+  const handleGithubSignup = async () => {
+    try {
+      const response = await fetch('http://localhost:' + port + '/github/signup', {
+        method: 'GET',
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        window.location.href = "http://localhost:"+ port + '/github/signup';
+      } else {
+        console.error('Github signup failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Failed to connect to the server:', error);
+    }
+  }
+
   return (
     <Container maxWidth="sm" className="signup-container">
       <Box className="signup-box">
@@ -278,6 +296,7 @@ function SignUpScreen() {
             variant="outlined"
             fullWidth
             startIcon={<GitHubIcon />}
+            onClick={handleGithubSignup}
             sx={{
               borderColor: '#000',
               color: '#000',

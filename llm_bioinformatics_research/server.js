@@ -261,6 +261,68 @@ app.get('/reset-password', (req, res) => {
     res.redirect(`http://localhost:3000/reset-password?token=${token}`);
 });
 
+const axios = require('axios');
+const querystring = require('querystring');
+
+app.post('/github/signup', (req, res) => {
+    const clientId = process.env.GITHUB_CLIENT_ID;
+    const redirectUri = `http://localhost:${port}/github/callback`;
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
+
+    res.json({ url: githubAuthUrl });
+});
+
+app.get('/github/callback', async (req, res) => {
+    const { code } = req.query;
+
+    try {
+        const tokenResponse = await axios.post('https://github.com/login/oauth/access_token', querystring.stringify({
+            client_id: process.env.GITHUB_CLIENT_ID,   
+            client_secret: process.env.GITHUB_CLIENT_SECRET,
+            code: code,
+            redirect_uri: `http://localhost:${port}/github/callback`
+        }), {
+            headers: {
+                'Accept': 'application/json'
+            },
+        });
+
+        const accessToken = tokenResponse.data.access_token;
+
+        const userResponse = await axios.get('https://api.github.com/user', {
+            headers: {
+                Authrorization: 'Bearer ' + accessToken,
+            },
+        });
+
+        const user = userResponse.data;
+
+        const database = client.db("user_information");
+        const collection = database.collection("user_credentials");
+
+        const existingUser = await collection.findOne({ $or: [{ email: user.email }, { user_name: user.login }] });
+
+        if (existingUser) {
+            res.status(200).json({ message: "User already exists" });
+        } else {
+            const result = await collection.insertOne({
+                user_name: user.login,
+                email: user.email,
+                password: '',
+                profile_photo: user.avatar_url,
+                phone_number: '',
+                location: '',
+                theme: 'system'
+            });
+        }
+
+    } catch (error) {
+        console.error("Error during Github OAuth callback:", error);
+        res.status(500).json({ message: "Failed to authenticate with Github" });
+    }
+});
+
+
 function findAvailablePort(initialPort) {
     return new Promise((resolve, reject) => {
         const server = net.createServer();
